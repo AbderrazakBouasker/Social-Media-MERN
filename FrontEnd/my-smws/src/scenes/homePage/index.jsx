@@ -1,8 +1,11 @@
-const HomePage=()=>{
-    return(
-        <div>
-            <h1>Home Page</h1>
-        </div>
-    )
-}
+import Navbar from "scenes/navbar";
+import { Box } from "@mui/material";
+
+const HomePage = () => {
+  return (
+    <Box>
+      <Navbar />
+    </Box>
+  );
+};
 export default HomePage;
