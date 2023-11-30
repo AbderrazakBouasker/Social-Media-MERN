@@ -19,7 +19,7 @@ export const createPost = async (req, res) => {
     });
     await newPost.save();
     const post = await Post.find();
-    res.status(200).json(newPost);
+    res.status(200).json(post);
   } catch (error) {
     res.status(409).json({ error: error.message });
   }
