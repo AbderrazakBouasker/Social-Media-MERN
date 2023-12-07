@@ -9,6 +9,7 @@ import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import Comment from "components/Comment";
 import WidgetWrapper from "components/WidgetWrapper";
+import MyCommentWidget from "./MyCommentWidget";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
@@ -94,17 +95,23 @@ const PostWidget = ({
         </IconButton>
       </FlexBetween>
       {isComments && (
-        <Box mt="0.5rem">
-          {comments.map((comment, i) => (
-            <Box key={`${name}-${i}`}>
-              <Divider />
-              <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                <Comment author={comment.commentUsername} content={comment.comment} />
-              </Typography>
-            </Box>
-          ))}
-          <Divider />
-        </Box>
+        <>
+          <MyCommentWidget postId={postId} />
+          <Box mt="0.5rem">
+            {comments.map((comment, i) => (
+              <Box key={`${name}-${i}`}>
+                <Divider />
+                <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                  <Comment
+                    author={comment.commentUsername}
+                    content={comment.comment}
+                  />
+                </Typography>
+              </Box>
+            ))}
+            <Divider />
+          </Box>
+        </>
       )}
     </WidgetWrapper>
   );

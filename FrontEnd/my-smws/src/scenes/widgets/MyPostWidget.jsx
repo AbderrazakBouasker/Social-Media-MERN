@@ -63,6 +63,7 @@ const MyPostWidget = ({ picturePath }) => {
         <UserImage image={picturePath} />
         <InputBase
           placeholder="What's on your mind..."
+          multiline
           onChange={(e) => setPost(e.target.value)}
           value={post}
           sx={{
