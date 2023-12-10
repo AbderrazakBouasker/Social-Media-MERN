@@ -25,6 +25,11 @@ const UserSchema = new mongoose.Schema(
       required: true,
       min: 8,
     },
+    role:{
+      type: String,
+      required: true,
+      default: "user",
+    },
     picturePath: {
       type: String,
       default: "",
