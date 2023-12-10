@@ -85,6 +85,22 @@ export const addComment = async (req, res) => {
   }
 };
 
+//UPDATE
+export const editPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { description, picturePath } = req.body;
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { description, picturePath },
+      { new: true }
+    );
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 //DELETE
 export const deletePost = async (req, res) => {
   try {

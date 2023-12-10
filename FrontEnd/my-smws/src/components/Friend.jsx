@@ -85,9 +85,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
           )}
         </IconButton>
       )}
-      {(_id === friendId || role === "admin") && (
-        <PostOptionModal postId={postId} />
-      )}
     </FlexBetween>
   );
 };

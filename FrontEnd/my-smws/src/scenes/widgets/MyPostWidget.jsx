@@ -25,19 +25,29 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
 
-const MyPostWidget = ({ picturePath }) => {
+const MyPostWidget = ({
+  picturePath,
+  method = "POST",
+  postId,
+  description,
+  postImage,
+  handleEditState,
+}) => {
   const dispatch = useDispatch();
   const [isImage, setIsImage] = useState(false);
-  const [image, setImage] = useState(null);
-  const [post, setPost] = useState("");
+  const [image, setImage] = useState(postImage || null);
+  const [post, setPost] = useState(description || "");
   const { palette } = useTheme();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
+  const firstName = useSelector((state) => state.user.firstName);
+  const lastName = useSelector((state) => state.user.lastName);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
   const handlePost = async () => {
+    console.log("handlePost te5dem");
     const formData = new FormData();
     formData.append("userId", _id);
     formData.append("description", post);
@@ -55,6 +65,35 @@ const MyPostWidget = ({ picturePath }) => {
     dispatch(setPosts({ posts }));
     setImage(null);
     setPost("");
+  };
+
+  const handleUpdate = async () => {
+    try {
+      console.log("handleUpdate te5dem");
+      const response = await fetch(
+        `http://localhost:3001/posts/${postId}/edit`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: _id,
+            firstName: firstName,
+            lastName: lastName,
+            description: post,
+            picturePath: image.name,
+          }),
+        }
+      );
+      const updatedPost = await response.json();
+      handleEditState();
+      console.log(updatedPost);
+      dispatch(setPost({ post: updatedPost }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -157,14 +196,14 @@ const MyPostWidget = ({ picturePath }) => {
 
         <Button
           disabled={!post}
-          onClick={handlePost}
+          onClick={method === "PATCH" ? handleUpdate : handlePost}
           sx={{
             color: palette.background.alt,
             backgroundColor: palette.primary.main,
             borderRadius: "3rem",
           }}
         >
-          POST
+          {method === "PATCH" ? "UPDATE" : "POST"}
         </Button>
       </FlexBetween>
     </WidgetWrapper>

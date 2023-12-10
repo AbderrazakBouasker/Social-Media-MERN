@@ -4,10 +4,12 @@ import { Delete, Edit } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { removePost, setPost } from "state";
 import ListIcon from "@mui/icons-material/List";
+import MyPostWidget from "scenes/widgets/MyPostWidget";
 
-const PostOptionModal = ({ postId }) => {
+const PostOptionModal = ({ postId, handleEditState }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
+  const picturePath = useSelector((state) => state.user.picturePath);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -43,28 +45,8 @@ const PostOptionModal = ({ postId }) => {
   };
 
   const handleModify = async () => {
+    handleEditState();
     handleClose();
-    try {
-      const response = await fetch(
-        `http://localhost:3001/posts/${postId}/edit`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            // userId: loggedInUserId,
-            // commentUsername: fullName,
-            // comment: comment,
-          }),
-        }
-      );
-      const updatedPost = await response.json();
-      dispatch(setPost({ post: updatedPost }));
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
