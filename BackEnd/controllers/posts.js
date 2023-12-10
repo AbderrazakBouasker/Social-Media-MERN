@@ -75,9 +75,9 @@ export const likePost = async (req, res) => {
 export const addComment = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userId,commentUsername, comment } = req.body;
+    const { userId, commentUsername, comment } = req.body;
     const post = await Post.findById(id);
-    post.comments.push({ userId, comment, commentUsername});
+    post.comments.push({ userId, comment, commentUsername });
     const updatedPost = await post.save();
     res.status(200).json(updatedPost);
   } catch (error) {
@@ -85,3 +85,13 @@ export const addComment = async (req, res) => {
   }
 };
 
+//DELETE
+export const deletePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedPost = await Post.findByIdAndDelete(id);
+    res.status(200).json(deletedPost);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
