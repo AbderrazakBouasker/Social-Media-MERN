@@ -107,13 +107,19 @@ export const editPost = async (req, res) => {
 };
 
 //UPDATE
-export const deleteComment = async (req, res)=>{
-  try{
-    const {id} = req.params;
-  }catch(error){
-    res.status(500).json({error: error.message});
+export const deleteComment = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { _id } = req.body;
+    const post = await Post.findById(id);
+    const index = post.comments.findIndex((comment) => comment._id === _id);
+    post.comments.splice(index, 1);
+    const updatedPost = await post.save();
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 //DELETE
 export const deletePost = async (req, res) => {
