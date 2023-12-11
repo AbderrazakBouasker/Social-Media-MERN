@@ -2,8 +2,16 @@
 import React from 'react';
 import FlexBetween from './FlexBetween';
 import PostOptionModal from './PostOptionModal';
+import { useState } from 'react';
+import MyCommentWidget from 'scenes/widgets/MyCommentWidget';
 
 const Comment = ({ author, content, commentId, postId }) => {
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleEditState = () => {
+    setIsEdit(!isEdit);
+  }
+
   return (
     <div className="comment">
       <FlexBetween>
@@ -12,9 +20,15 @@ const Comment = ({ author, content, commentId, postId }) => {
           postId={postId}
           subject="comment"
           commentId={commentId}
+          handleEditState = {handleEditState}
         />
       </FlexBetween>
-      <p>{content}</p>
+      {isEdit && (
+        <MyCommentWidget postId = {postId} subject="edit" commentId= {commentId} commentContent={content} handleEditState={handleEditState} />
+      )}
+      {!isEdit && (
+        <p>{content}</p>
+      )}
     </div>
   );
 };

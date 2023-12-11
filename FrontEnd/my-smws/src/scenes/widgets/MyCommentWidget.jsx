@@ -4,8 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
 import FlexBetween from "components/FlexBetween";
 
-const MyCommentWidget = ({ postId }) => {
-  const [comment, setComment] = useState("");
+const MyCommentWidget = ({
+  postId,
+  commentContent,
+  commentId,
+  subject = "comment",
+  handleEditState,
+}) => {
+  const [comment, setComment] = useState(commentContent || "");
   const { palette } = useTheme();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -38,6 +44,27 @@ const MyCommentWidget = ({ postId }) => {
     setComment("");
   };
 
+  const handleCommentEdit = async () => {
+    const response = await fetch(
+      `http://localhost:3001/posts/${postId}/editComment`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          _id: commentId,
+          comment: comment,
+        }),
+      }
+    );
+    const updatedPost = await response.json();
+    dispatch(setPost({ post: updatedPost }));
+    setComment("");
+    handleEditState();
+  };
+
   return (
     <FlexBetween gap="0.5rem" margin="0.3rem">
       <TextField
@@ -50,14 +77,16 @@ const MyCommentWidget = ({ postId }) => {
       />
       <Button
         disabled={!comment}
-        onClick={handleCommentSubmit}
+        onClick={
+          subject === "comment" ? handleCommentSubmit : handleCommentEdit
+        }
         sx={{
           color: palette.background.alt,
           backgroundColor: palette.primary.main,
           borderRadius: "3rem",
         }}
       >
-        Comment
+        {subject === "comment" ? "Comment" : "Edit"}
       </Button>
     </FlexBetween>
   );
