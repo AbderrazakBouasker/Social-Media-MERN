@@ -136,7 +136,10 @@ const PostWidget = ({
                       <Comment
                         author={comment.commentUsername}
                         content={comment.comment}
+                        postId={postId}
+                        commentId={ comment._id }
                       />
+                      {console.log("commentId = ", comment._id)}
                     </Typography>
                   </Box>
                 ))}

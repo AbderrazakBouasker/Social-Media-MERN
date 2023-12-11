@@ -2,10 +2,10 @@ import React from "react";
 import { useTheme, IconButton, Menu, MenuItem } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
-import { removePost } from "state";
+import { removePost, setPost } from "state";
 import ListIcon from "@mui/icons-material/List";
 
-const PostOptionModal = ({ postId, handleEditState }) => {
+const PostOptionModal = ({ postId, handleEditState, subject="post", commentId }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
 
@@ -42,6 +42,27 @@ const PostOptionModal = ({ postId, handleEditState }) => {
     }
   };
 
+  const handleDeleteComment = async () => {
+    handleClose();
+    try {
+      const response = await fetch(
+        `http://localhost:3001/posts/${postId}/deleteComment`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ _id: commentId})
+        }
+      );
+      const updatedPost = await response.json();
+      dispatch(setPost({ post: updatedPost }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleModify = async () => {
     handleEditState();
     handleClose();
@@ -68,7 +89,7 @@ const PostOptionModal = ({ postId, handleEditState }) => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleDelete}>
+        <MenuItem onClick={subject === "post" ? handleDelete : handleDeleteComment} >
           Delete
           <IconButton>
             <Delete />

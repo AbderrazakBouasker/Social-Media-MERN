@@ -3,12 +3,16 @@ import React from 'react';
 import FlexBetween from './FlexBetween';
 import PostOptionModal from './PostOptionModal';
 
-const Comment = ({ author, content }) => {
+const Comment = ({ author, content, commentId, postId }) => {
   return (
     <div className="comment">
       <FlexBetween>
         <h4>{author}</h4>
-        <PostOptionModal/>
+        <PostOptionModal
+          postId={postId}
+          subject="comment"
+          commentId={commentId}
+        />
       </FlexBetween>
       <p>{content}</p>
     </div>

@@ -112,7 +112,9 @@ export const deleteComment = async (req, res) => {
     const { id } = req.params;
     const { _id } = req.body;
     const post = await Post.findById(id);
-    const index = post.comments.findIndex((comment) => comment._id.toString() === _id);
+    const index = post.comments.findIndex(
+      (comment) => comment._id.toString() === _id
+    );
     post.comments.splice(index, 1);
     const updatedPost = await post.save();
     res.status(200).json(updatedPost);
@@ -127,7 +129,9 @@ export const editComment = async (req, res) => {
     const { id } = req.params;
     const { _id, comment } = req.body;
     const post = await Post.findById(id);
-    const index = post.comments.findIndex((comment) => comment._id.toString() === _id);
+    const index = post.comments.findIndex(
+      (comment) => comment._id.toString() === _id
+    );
     post.comments[index].comment = comment;
     const updatedPost = await post.save();
     res.status(200).json(updatedPost);
