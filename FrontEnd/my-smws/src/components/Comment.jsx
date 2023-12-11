@@ -1,10 +1,15 @@
 
 import React from 'react';
+import FlexBetween from './FlexBetween';
+import PostOptionModal from './PostOptionModal';
 
 const Comment = ({ author, content }) => {
   return (
     <div className="comment">
-      <h4>{author}</h4>
+      <FlexBetween>
+        <h4>{author}</h4>
+        <PostOptionModal/>
+      </FlexBetween>
       <p>{content}</p>
     </div>
   );

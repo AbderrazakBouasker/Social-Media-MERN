@@ -34,7 +34,6 @@ const MyCommentWidget = ({ postId }) => {
       }
     );
     const updatedPost = await response.json();
-    console.log("comment updatedpost ", updatedPost);
     dispatch(setPost({ post: updatedPost }));
     setComment("");
   };
@@ -48,7 +47,6 @@ const MyCommentWidget = ({ postId }) => {
         onChange={handleCommentChange}
         multiline
         fullWidth
-        // margin=""
       />
       <Button
         disabled={!comment}
