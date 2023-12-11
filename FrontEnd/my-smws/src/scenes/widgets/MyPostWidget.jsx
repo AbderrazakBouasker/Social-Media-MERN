@@ -24,6 +24,7 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
+import { setPost as setPostAction } from "state"; 
 
 const MyPostWidget = ({
   picturePath,
@@ -90,7 +91,7 @@ const MyPostWidget = ({
       const updatedPost = await response.json();
       handleEditState();
       console.log(updatedPost);
-      dispatch(setPost({ post: updatedPost }));
+      dispatch(setPostAction({ post : updatedPost }));
     } catch (error) {
       console.log(error);
     }
