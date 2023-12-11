@@ -64,6 +64,7 @@ const PostWidget = ({
       <FlexBetween>
         {!isEdit && (
           <Friend
+            gap="1rem"
             friendId={postUserId}
             name={name}
             subtitle={location}
@@ -72,10 +73,7 @@ const PostWidget = ({
           />
         )}
         {(loggedInUserId === postUserId || role === "admin") && (
-          <PostOptionModal
-            postId={postId}
-            handleEditState={handleEditState}
-          />
+          <PostOptionModal postId={postId} handleEditState={handleEditState} />
         )}
         {isEdit && (
           <MyPostWidget

@@ -2,23 +2,19 @@ import {
   PersonAddOutlined,
   PersonRemoveOutlined,
 } from "@mui/icons-material";
-import ListIcon from "@mui/icons-material/List";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setFriends } from "state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
-import PostOptionModal from "./PostOptionModal";
-import { useState } from "react";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath, gap}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
-  const role = useSelector((state)=> state.user.role)
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -26,7 +22,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  const [isModalOpen,setIsModalOpen] = useState(false);
 
   const isFriend = friends.find((friend) => friend._id === friendId);
 
@@ -46,7 +41,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId }) => {
   };
 
   return (
-    <FlexBetween>
+    <FlexBetween gap={gap}>
       <FlexBetween gap="1rem">
         <UserImage image={userPicturePath} size="55px" />
         <Box
