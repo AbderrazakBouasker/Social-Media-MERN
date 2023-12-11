@@ -1,15 +1,13 @@
 import React from "react";
-import { useTheme, IconButton, Button, Menu, MenuItem } from "@mui/material";
+import { useTheme, IconButton, Menu, MenuItem } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
-import { removePost, setPost } from "state";
+import { removePost } from "state";
 import ListIcon from "@mui/icons-material/List";
-import MyPostWidget from "scenes/widgets/MyPostWidget";
 
 const PostOptionModal = ({ postId, handleEditState }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
-  const picturePath = useSelector((state) => state.user.picturePath);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
