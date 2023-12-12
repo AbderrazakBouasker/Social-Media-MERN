@@ -140,7 +140,6 @@ const PostWidget = ({
                         commentId={ comment._id }
                         commentUserId={ comment.userId }
                       />
-                      {console.log("commentId = ", comment._id)}
                     </Typography>
                   </Box>
                 ))}

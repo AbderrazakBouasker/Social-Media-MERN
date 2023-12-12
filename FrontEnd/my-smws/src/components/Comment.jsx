@@ -8,6 +8,7 @@ import MyCommentWidget from "scenes/widgets/MyCommentWidget";
 const Comment = ({ author, content, commentId, postId, commentUserId }) => {
   const [isEdit, setIsEdit] = useState(false);
   const loggedInUserId = useSelector((state) => state.user._id);
+  const role = useSelector((state) => state.user.role);
 
   const handleEditState = () => {
     setIsEdit(!isEdit);
@@ -17,7 +18,7 @@ const Comment = ({ author, content, commentId, postId, commentUserId }) => {
     <div className="comment">
       <FlexBetween>
         <h4>{author}</h4>
-        {commentUserId === loggedInUserId && (
+        {(commentUserId === loggedInUserId || role === "admin") && (
           <PostOptionModal
             postId={postId}
             subject="comment"
